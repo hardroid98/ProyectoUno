@@ -11,6 +11,8 @@ import cl.malditosnakamas.proyectouno.registro.domain.Registro
 import cl.malditosnakamas.proyectouno.registro.domain.RegistroRepository
 import cl.malditosnakamas.proyectouno.registro.domain.RegistroUseCase
 import com.google.android.material.textfield.TextInputEditText
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 class RegistroUsuarioFragment : Fragment(R.layout.fragment_registro_usuario) {
 
@@ -32,8 +34,14 @@ class RegistroUsuarioFragment : Fragment(R.layout.fragment_registro_usuario) {
 
     private fun setupListener() {
         binding.btnRegistrar.setOnClickListener {
-            Toast.makeText(requireContext(), "Holaaaaa", Toast.LENGTH_SHORT).show()
-            registroUseCase.execute(obtenerRegistro())
+            registroUseCase
+                .execute(obtenerRegistro())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    {result -> handleResult(result)},
+                    {error -> handleError(error)}
+                )
         }
     }
 
@@ -48,6 +56,14 @@ class RegistroUsuarioFragment : Fragment(R.layout.fragment_registro_usuario) {
 
     fun getTextValue(textInputEditText: TextInputEditText) : String{
         return textInputEditText.text.toString()
+    }
+
+    private fun handleResult(result: Boolean?) {
+        Toast.makeText(requireContext(), "Registro $result", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun handleError(error: Throwable?) {
+        Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
     }
 
 
