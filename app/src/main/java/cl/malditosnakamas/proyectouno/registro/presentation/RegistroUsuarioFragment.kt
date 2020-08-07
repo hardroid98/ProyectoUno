@@ -7,11 +7,13 @@ import androidx.fragment.app.Fragment
 import cl.malditosnakamas.proyectouno.R
 import cl.malditosnakamas.proyectouno.databinding.FragmentRegistroUsuarioBinding
 import cl.malditosnakamas.proyectouno.registro.data.local.LocalRegistroRepository
+import cl.malditosnakamas.proyectouno.registro.data.local.RegistroMapper
 import cl.malditosnakamas.proyectouno.registro.domain.Registro
 import cl.malditosnakamas.proyectouno.registro.domain.RegistroRepository
 import cl.malditosnakamas.proyectouno.registro.domain.RegistroUseCase
 import com.google.android.material.textfield.TextInputEditText
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 class RegistroUsuarioFragment : Fragment(R.layout.fragment_registro_usuario) {
@@ -19,6 +21,8 @@ class RegistroUsuarioFragment : Fragment(R.layout.fragment_registro_usuario) {
     lateinit var binding: FragmentRegistroUsuarioBinding
     lateinit var registroUseCase: RegistroUseCase
     lateinit var repository: RegistroRepository
+    val mapper = RegistroMapper()
+    val compositeDisposable = CompositeDisposable()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -28,21 +32,34 @@ class RegistroUsuarioFragment : Fragment(R.layout.fragment_registro_usuario) {
     }
 
     private fun setupDependencies() {
-        repository = LocalRegistroRepository()
+        repository = LocalRegistroRepository(requireActivity().applicationContext, mapper)
         registroUseCase = RegistroUseCase(repository)
     }
 
     private fun setupListener() {
         binding.btnRegistrar.setOnClickListener {
-            registroUseCase
-                .execute(obtenerRegistro())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                    {result -> handleResult(result)},
-                    {error -> handleError(error)}
-                )
+            doClickRegister()
         }
+    }
+
+    private fun doClickRegister() {
+        if (isValidateInputValues()) {
+            compositeDisposable.add(
+                registroUseCase
+                    .execute(obtenerRegistro())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                        { result -> handleResult(result) },
+                        { error -> handleError(error) }
+                    )
+            )
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.dispose()
     }
 
     private fun obtenerRegistro(): Registro {
@@ -54,7 +71,11 @@ class RegistroUsuarioFragment : Fragment(R.layout.fragment_registro_usuario) {
         )
     }
 
-    fun getTextValue(textInputEditText: TextInputEditText) : String{
+    private fun isValidateInputValues(): Boolean {
+        return true
+    }
+
+    fun getTextValue(textInputEditText: TextInputEditText): String {
         return textInputEditText.text.toString()
     }
 

@@ -3,6 +3,7 @@ package cl.malditosnakamas.proyectouno.registro.data.local
 import android.content.Context
 import androidx.room.Room
 import cl.malditosnakamas.proyectouno.database.ProyectoUnoDataBase
+import cl.malditosnakamas.proyectouno.database.ServiceDataBase
 import cl.malditosnakamas.proyectouno.registro.domain.Registro
 import cl.malditosnakamas.proyectouno.registro.domain.RegistroRepository
 import io.reactivex.Single
@@ -12,12 +13,12 @@ class LocalRegistroRepository(
     private val registroMapper: RegistroMapper
 ) : RegistroRepository {
 
-    val db = Room.databaseBuilder(
-        applicationContext,
-        ProyectoUnoDataBase::class.java, "database-pproyecto-uno"
-    ).build()
+    private val dataBase = ServiceDataBase(applicationContext)
 
     override fun registro(registro: Registro): Single<Boolean> {
-        return db.registroDao().insert(registroMapper.mapDomainToRoom(registro))
+        return dataBase
+            .getDB()
+            .registroDao()
+            .insert(registroMapper.mapDomainToRoom(registro))
     }
 }
