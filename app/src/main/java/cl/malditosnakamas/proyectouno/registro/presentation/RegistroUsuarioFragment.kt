@@ -84,7 +84,7 @@ class RegistroUsuarioFragment : Fragment(R.layout.fragment_registro_usuario) {
     }
 
     private fun handleError(error: Throwable?) {
-        Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), "Error ${error?.message}", Toast.LENGTH_SHORT).show()
     }
 
 

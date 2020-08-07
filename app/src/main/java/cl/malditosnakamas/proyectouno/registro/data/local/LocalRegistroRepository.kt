@@ -1,8 +1,6 @@
 package cl.malditosnakamas.proyectouno.registro.data.local
 
 import android.content.Context
-import androidx.room.Room
-import cl.malditosnakamas.proyectouno.database.ProyectoUnoDataBase
 import cl.malditosnakamas.proyectouno.database.ServiceDataBase
 import cl.malditosnakamas.proyectouno.registro.domain.Registro
 import cl.malditosnakamas.proyectouno.registro.domain.RegistroRepository
@@ -19,6 +17,8 @@ class LocalRegistroRepository(
         return dataBase
             .getDB()
             .registroDao()
-            .insert(registroMapper.mapDomainToRoom(registro))
+            .insert(registroMapper.mapDomainToRoom(registro)).map {
+                it > 0
+            }
     }
 }
