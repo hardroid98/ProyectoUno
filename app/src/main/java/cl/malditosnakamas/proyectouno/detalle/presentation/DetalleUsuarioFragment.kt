@@ -10,4 +10,13 @@ class DetalleUsuarioFragment : Fragment(R.layout.fragment_detalle_usuario) {
 
 
 }
-/test
+
+/* Ayuda Git TMN
+ls
+git status
+git fetch
+git pull
+git add .
+git commit -m "se agrega cambio"
+git push origin feature/detalle-ususrio (nuestra rama)
+ */
