@@ -7,8 +7,10 @@ import java.util.*
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
-private const val PATTERN = "[.-]"
 object RutValidator {
+
+    private const val PATTERN = "[.-]"
+
     private fun validate(rut: Int, dv: Char): Boolean {
         var rutAux = rut
         var m = 0

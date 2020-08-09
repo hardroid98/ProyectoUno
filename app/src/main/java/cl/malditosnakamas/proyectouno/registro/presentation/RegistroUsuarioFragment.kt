@@ -11,11 +11,14 @@ import cl.malditosnakamas.proyectouno.registro.data.local.RegistroMapper
 import cl.malditosnakamas.proyectouno.registro.domain.Registro
 import cl.malditosnakamas.proyectouno.registro.domain.RegistroRepository
 import cl.malditosnakamas.proyectouno.registro.domain.RegistroUseCase
+import cl.malditosnakamas.proyectouno.util.validator.RutValidator
 import com.google.android.material.textfield.TextInputEditText
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
+private const val MIN_LENGTH_INPUT = 8
+private const val MIN_LENGTH_CLAVE = 4
 class RegistroUsuarioFragment : Fragment(R.layout.fragment_registro_usuario) {
 
     lateinit var binding: FragmentRegistroUsuarioBinding
@@ -72,8 +75,25 @@ class RegistroUsuarioFragment : Fragment(R.layout.fragment_registro_usuario) {
     }
 
     private fun isValidateInputValues(): Boolean {
-        return true
+        var retorno = true
+        binding.apply {
+            isInputRutValid(etRut.text.toString())
+
+            if(etClave.text.toString().length > MIN_LENGTH_CLAVE){
+                etClave.error = getString(R.string.error_largo_clave)
+                retorno = false
+            }
+
+
+        }
+        return retorno
     }
+
+    fun isInputRutValid(rut: String) = RutValidator.validate(rut).run {
+        binding.etRut.error = getString(R.string.error_rut)
+    }
+
+    fun inEmailInputValid(email: String) = Email
 
     fun getTextValue(textInputEditText: TextInputEditText): String {
         return textInputEditText.text.toString()

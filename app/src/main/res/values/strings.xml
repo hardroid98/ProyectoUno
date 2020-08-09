@@ -8,4 +8,6 @@
     <string name="ingresa_rut">Ingrese Rut</string>
     <string name="ingresa_clave">Ingresa Clave</string>
     <string name="ingresa_email">Ingresa Email</string>
+    <string name="error_rut">Rut invalido</string>
+    <string name="error_largo_clave">La clave debe tener 4 caracteres minimo.</string>
 </resources>
