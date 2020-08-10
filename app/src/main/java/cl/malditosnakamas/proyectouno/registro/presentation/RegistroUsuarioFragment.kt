@@ -11,6 +11,7 @@ import cl.malditosnakamas.proyectouno.registro.data.local.RegistroMapper
 import cl.malditosnakamas.proyectouno.registro.domain.Registro
 import cl.malditosnakamas.proyectouno.registro.domain.RegistroRepository
 import cl.malditosnakamas.proyectouno.registro.domain.RegistroUseCase
+import cl.malditosnakamas.proyectouno.util.ConstantValues.EMPTY_STRING
 import cl.malditosnakamas.proyectouno.util.formater.RutFormatter
 import cl.malditosnakamas.proyectouno.util.validator.EmailValidator
 import cl.malditosnakamas.proyectouno.util.validator.NameValidator
@@ -54,6 +55,7 @@ class RegistroUsuarioFragment : Fragment(R.layout.fragment_registro_usuario) {
     }
 
     private fun doClickRegister() {
+        clearErrorMessages()
         if (isValidateInputValues()) {
             compositeDisposable.add(
                 registroUseCase
@@ -65,6 +67,15 @@ class RegistroUsuarioFragment : Fragment(R.layout.fragment_registro_usuario) {
                         { error -> handleError(error) }
                     )
             )
+        }
+    }
+
+    private fun clearErrorMessages() {
+        binding.apply {
+            ilClave.error = EMPTY_STRING
+            ilEmail.error = EMPTY_STRING
+            ilNombre.error = EMPTY_STRING
+            ilRut.error = EMPTY_STRING
         }
     }
 
@@ -88,29 +99,35 @@ class RegistroUsuarioFragment : Fragment(R.layout.fragment_registro_usuario) {
         binding.apply {
             RutValidator.validate(etRut.text.toString()).apply {
                 if (!this) {
-                    etRut.error = getString(R.string.error_rut)
+                    ilRut.error = getString(R.string.error_rut)
                     retorno = false
+                    etRut.requestFocus()
                 }
             }
 
-            NameValidator.validate(etNombre.text.toString()).apply {
-                if (!this) {
-                    etNombre.error = getString(R.string.error_nombre)
-                    retorno = false
-                }
-            }
+
 
             PassValidator.validate(etClave.text.toString()).apply {
                 if (!this) {
-                    etClave.error = getString(R.string.error_clave)
+                    ilClave.error = getString(R.string.error_clave)
                     retorno = false
+                    etClave.requestFocus()
                 }
             }
 
             EmailValidator.validate(etEmail.text.toString()).apply {
                 if (!this) {
-                    etEmail.error = getString(R.string.error_email)
+                    ilEmail.error = getString(R.string.error_email)
                     retorno = false
+                    etEmail.requestFocus()
+                }
+            }
+
+            NameValidator.validate(etNombre.text.toString()).apply {
+                if (!this) {
+                    ilNombre.error = getString(R.string.error_nombre)
+                    retorno = false
+                    etNombre.requestFocus()
                 }
             }
 
