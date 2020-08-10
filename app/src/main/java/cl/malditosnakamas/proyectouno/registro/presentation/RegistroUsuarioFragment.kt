@@ -11,6 +11,9 @@ import cl.malditosnakamas.proyectouno.registro.data.local.RegistroMapper
 import cl.malditosnakamas.proyectouno.registro.domain.Registro
 import cl.malditosnakamas.proyectouno.registro.domain.RegistroRepository
 import cl.malditosnakamas.proyectouno.registro.domain.RegistroUseCase
+import cl.malditosnakamas.proyectouno.util.validator.EmailValidator
+import cl.malditosnakamas.proyectouno.util.validator.NameValidator
+import cl.malditosnakamas.proyectouno.util.validator.PassValidator
 import cl.malditosnakamas.proyectouno.util.validator.RutValidator
 import com.google.android.material.textfield.TextInputEditText
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -19,6 +22,7 @@ import io.reactivex.schedulers.Schedulers
 
 private const val MIN_LENGTH_INPUT = 8
 private const val MIN_LENGTH_CLAVE = 4
+
 class RegistroUsuarioFragment : Fragment(R.layout.fragment_registro_usuario) {
 
     lateinit var binding: FragmentRegistroUsuarioBinding
@@ -76,24 +80,40 @@ class RegistroUsuarioFragment : Fragment(R.layout.fragment_registro_usuario) {
 
     private fun isValidateInputValues(): Boolean {
         var retorno = true
-        binding.apply {
-            isInputRutValid(etRut.text.toString())
 
-            if(etClave.text.toString().length > MIN_LENGTH_CLAVE){
-                etClave.error = getString(R.string.error_largo_clave)
-                retorno = false
+        binding.apply {
+            RutValidator.validate(etRut.text.toString()).apply {
+                if (!this) {
+                    etRut.error = getString(R.string.error_rut)
+                    retorno = false
+                }
             }
 
+            NameValidator.validate(etNombre.text.toString()).apply {
+                if (!this) {
+                    etNombre.error = getString(R.string.error_nombre)
+                    retorno = false
+                }
+            }
 
+            PassValidator.validate(etClave.text.toString()).apply {
+                if (!this) {
+                    etClave.error = getString(R.string.error_clave)
+                    retorno = false
+                }
+            }
+
+            EmailValidator.validate(etEmail.text.toString()).apply {
+                if (!this) {
+                    etEmail.error = getString(R.string.error_email)
+                    retorno = false
+                }
+            }
+
+            return retorno
         }
-        return retorno
-    }
 
-    fun isInputRutValid(rut: String) = RutValidator.validate(rut).run {
-        binding.etRut.error = getString(R.string.error_rut)
     }
-
-    fun inEmailInputValid(email: String) = Email
 
     fun getTextValue(textInputEditText: TextInputEditText): String {
         return textInputEditText.text.toString()

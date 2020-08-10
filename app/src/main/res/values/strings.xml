@@ -10,4 +10,7 @@
     <string name="ingresa_email">Ingresa Email</string>
     <string name="error_rut">Rut invalido</string>
     <string name="error_largo_clave">La clave debe tener 4 caracteres minimo.</string>
+    <string name="error_nombre">Ingrese un nombre correcto</string>
+    <string name="error_clave">Error en contraseña</string>
+    <string name="error_email">Error email</string>
 </resources>
