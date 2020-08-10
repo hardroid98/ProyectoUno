@@ -11,18 +11,23 @@ import cl.malditosnakamas.proyectouno.registro.data.local.RegistroMapper
 import cl.malditosnakamas.proyectouno.registro.domain.Registro
 import cl.malditosnakamas.proyectouno.registro.domain.RegistroRepository
 import cl.malditosnakamas.proyectouno.registro.domain.RegistroUseCase
+import cl.malditosnakamas.proyectouno.util.ConstantValues.EMPTY_STRING
+import cl.malditosnakamas.proyectouno.util.validator.EmailValidator
+import cl.malditosnakamas.proyectouno.util.validator.NameValidator
+import cl.malditosnakamas.proyectouno.util.validator.PassValidator
+import cl.malditosnakamas.proyectouno.util.validator.RutValidator
+import cl.malditosnakamas.proyectouno.util.watcher.RutTextWatcher
 import com.google.android.material.textfield.TextInputEditText
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 class RegistroUsuarioFragment : Fragment(R.layout.fragment_registro_usuario) {
-
     lateinit var binding: FragmentRegistroUsuarioBinding
     lateinit var registroUseCase: RegistroUseCase
     lateinit var repository: RegistroRepository
-    val mapper = RegistroMapper()
-    val compositeDisposable = CompositeDisposable()
+    private val mapper = RegistroMapper()
+    private val compositeDisposable = CompositeDisposable()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -37,12 +42,17 @@ class RegistroUsuarioFragment : Fragment(R.layout.fragment_registro_usuario) {
     }
 
     private fun setupListener() {
-        binding.btnRegistrar.setOnClickListener {
-            doClickRegister()
+        binding.apply {
+            btnRegistrar.setOnClickListener {
+                doClickRegister()
+            }
+
+            RutTextWatcher().attachEditText(etRut)
         }
     }
 
     private fun doClickRegister() {
+        clearErrorMessages()
         if (isValidateInputValues()) {
             compositeDisposable.add(
                 registroUseCase
@@ -54,6 +64,15 @@ class RegistroUsuarioFragment : Fragment(R.layout.fragment_registro_usuario) {
                         { error -> handleError(error) }
                     )
             )
+        }
+    }
+
+    private fun clearErrorMessages() {
+        binding.apply {
+            ilClave.error = EMPTY_STRING
+            ilEmail.error = EMPTY_STRING
+            ilNombre.error = EMPTY_STRING
+            ilRut.error = EMPTY_STRING
         }
     }
 
@@ -72,7 +91,43 @@ class RegistroUsuarioFragment : Fragment(R.layout.fragment_registro_usuario) {
     }
 
     private fun isValidateInputValues(): Boolean {
-        return true
+        var retorno = true
+
+        binding.apply {
+            RutValidator.validate(etRut.text.toString()).apply {
+                if (!this) {
+                    ilRut.error = getString(R.string.error_rut)
+                    retorno = false
+                    etRut.requestFocus()
+                }
+            }
+
+            PassValidator.validate(etClave.text.toString()).apply {
+                if (!this) {
+                    ilClave.error = getString(R.string.error_clave)
+                    retorno = false
+                    etClave.requestFocus()
+                }
+            }
+
+            EmailValidator.validate(etEmail.text.toString()).apply {
+                if (!this) {
+                    ilEmail.error = getString(R.string.error_email)
+                    retorno = false
+                    etEmail.requestFocus()
+                }
+            }
+
+            NameValidator.validate(etNombre.text.toString()).apply {
+                if (!this) {
+                    ilNombre.error = getString(R.string.error_nombre)
+                    retorno = false
+                    etNombre.requestFocus()
+                }
+            }
+
+            return retorno
+        }
     }
 
     fun getTextValue(textInputEditText: TextInputEditText): String {
@@ -86,6 +141,4 @@ class RegistroUsuarioFragment : Fragment(R.layout.fragment_registro_usuario) {
     private fun handleError(error: Throwable?) {
         Toast.makeText(requireContext(), "Error ${error?.message}", Toast.LENGTH_SHORT).show()
     }
-
-
 }

@@ -15,6 +15,7 @@
         android:textStyle="bold" />
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/il_nombre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -22,10 +23,14 @@
             android:id="@+id/et_nombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/ingresa_nombre" />
+            android:hint="@string/ingresa_nombre"
+            android:maxLines="1"
+            android:minLines="1"
+            android:imeOptions="actionNext"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/il_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -33,38 +38,48 @@
             android:id="@+id/et_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/ingresa_email" />
+            android:hint="@string/ingresa_email"
+            android:inputType="textEmailAddress"
+            android:maxLines="1"
+            android:imeOptions="actionNext"/>
     </com.google.android.material.textfield.TextInputLayout>
 
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/il_clave"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputEditText
-           android:id="@+id/et_clave"
+            android:id="@+id/et_clave"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/ingresa_clave" />
+            android:hint="@string/ingresa_clave"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:imeOptions="actionNext"/>
     </com.google.android.material.textfield.TextInputLayout>
 
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/il_rut"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_rut"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/ingresa_rut"
-            android:id="@+id/et_rut"/>
+            android:maxLines="1"
+            android:imeOptions="actionDone"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/btn_registrar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/registrar"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:text="@string/registrar" />
 
 </LinearLayout>
