@@ -7,19 +7,19 @@ import org.junit.Assert.*
 class EmailValidatorTest {
 
     @Test
-    fun emailValidate_whenInsertValidEmail_whenReturnTrue() {
+    fun validarEmail_cuandoSeInsertaUnMailValido_entoncesRetornaTrue() {
         val email = "harttyn.arce@gmail.com"
         assertTrue(EmailValidator.validate(email))
     }
 
     @Test
-    fun emailValidate_whenInsertInvalidEmail_whenReturnFalse() {
+    fun validarEmail_cuandoSeInsertaUnEmailInvalido_entoncesRetornaFalse() {
         val email = "harttyn.arce-gmail.com"
         assertFalse(EmailValidator.validate(email))
     }
 
     @Test
-    fun emailValidate_whenInsertEmptyEmail_whenReturnFalse() {
+    fun validarEmail_cuandoSeInsertaUnEmailVacio_entoncesRetornaFalse() {
         val email = ""
         assertFalse(EmailValidator.validate(email))
     }
