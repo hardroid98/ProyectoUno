@@ -4,7 +4,7 @@ object PassValidator {
 
     const val PASSWORD_VALUES = ".{4,16}"
 
-    fun validate(password: String?): Boolean {
-        return password != null && password.isNotEmpty() && password.matches(PASSWORD_VALUES.toRegex())
+    fun validate(password: String): Boolean {
+        return password.isNotEmpty() && password.matches(PASSWORD_VALUES.toRegex())
     }
 }

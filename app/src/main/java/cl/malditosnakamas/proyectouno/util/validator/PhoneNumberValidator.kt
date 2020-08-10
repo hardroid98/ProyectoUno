@@ -1,16 +1,23 @@
 package cl.malditosnakamas.proyectouno.util.validator
 
 import cl.malditosnakamas.proyectouno.util.ConstantValues.EMPTY_STRING
+import cl.malditosnakamas.proyectouno.util.ConstantValues.PLUS_VALUE
+import cl.malditosnakamas.proyectouno.util.ConstantValues.SPACE_STRING
 
 object PhoneNumberValidator {
-    const val PHONE_NUMBER_SYMBOLS_COUNT = 11
-    const val NUMBER_VALUES = "[0-9]+"
+    private const val NUMBER_VALUES = "[0-9]+"
+    private const val MIN_LENGTH_NUMBER = 8
+    private const val MAX_LENGTH_NUMBER = 11
 
-    fun validatePhone(phone: String?): Boolean {
-        if (phone == null) return false
-        val validatePhone = phone.replace("\\s+".toRegex(), EMPTY_STRING)
-        return (validatePhone.matches(NUMBER_VALUES.toRegex())
-                && validatePhone.length == PHONE_NUMBER_SYMBOLS_COUNT)
+    fun validatePhone(phone: String): Boolean {
+        val validatePhone =
+            phone.replace(PLUS_VALUE, EMPTY_STRING).replace(SPACE_STRING, EMPTY_STRING)
+        return (validatePhone.isNotEmpty()
+                && validatePhone.matches(NUMBER_VALUES.toRegex())
+                && validatePhoneLength(validatePhone))
     }
 
+    private fun validatePhoneLength(validatePhone: String): Boolean {
+        return validatePhone.length in (MIN_LENGTH_NUMBER)..MAX_LENGTH_NUMBER
+    }
 }

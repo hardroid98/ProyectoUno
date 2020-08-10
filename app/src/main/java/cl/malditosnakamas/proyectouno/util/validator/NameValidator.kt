@@ -1,14 +1,14 @@
 package cl.malditosnakamas.proyectouno.util.validator
 
-import cl.malditosnakamas.proyectouno.util.validator.NumberValidator.validateNumeric
+import java.util.*
 
 object NameValidator {
-
+    private const val REGEX_VALUE = "^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*\$"
     fun validate(name: String): Boolean {
-        return validateNumeric(name)
+        return validateCountNames(name) && name.matches(REGEX_VALUE.toRegex())
     }
 
-    fun validate(first: String, second: String): Boolean {
-        return first == second && validateNumeric(first)
+    private fun validateCountNames(name: String): Boolean {
+        return StringTokenizer(name).countTokens() > 1
     }
 }

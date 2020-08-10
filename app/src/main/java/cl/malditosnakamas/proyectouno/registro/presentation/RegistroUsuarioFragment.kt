@@ -11,25 +11,25 @@ import cl.malditosnakamas.proyectouno.registro.data.local.RegistroMapper
 import cl.malditosnakamas.proyectouno.registro.domain.Registro
 import cl.malditosnakamas.proyectouno.registro.domain.RegistroRepository
 import cl.malditosnakamas.proyectouno.registro.domain.RegistroUseCase
+import cl.malditosnakamas.proyectouno.util.formater.RutFormatter
 import cl.malditosnakamas.proyectouno.util.validator.EmailValidator
 import cl.malditosnakamas.proyectouno.util.validator.NameValidator
 import cl.malditosnakamas.proyectouno.util.validator.PassValidator
 import cl.malditosnakamas.proyectouno.util.validator.RutValidator
+import cl.malditosnakamas.proyectouno.util.watcher.RutTextWatcher
 import com.google.android.material.textfield.TextInputEditText
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-private const val MIN_LENGTH_INPUT = 8
-private const val MIN_LENGTH_CLAVE = 4
+
 
 class RegistroUsuarioFragment : Fragment(R.layout.fragment_registro_usuario) {
-
     lateinit var binding: FragmentRegistroUsuarioBinding
     lateinit var registroUseCase: RegistroUseCase
     lateinit var repository: RegistroRepository
-    val mapper = RegistroMapper()
-    val compositeDisposable = CompositeDisposable()
+    private val mapper = RegistroMapper()
+    private val compositeDisposable = CompositeDisposable()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -44,8 +44,12 @@ class RegistroUsuarioFragment : Fragment(R.layout.fragment_registro_usuario) {
     }
 
     private fun setupListener() {
-        binding.btnRegistrar.setOnClickListener {
-            doClickRegister()
+        binding.apply {
+            btnRegistrar.setOnClickListener {
+                doClickRegister()
+            }
+
+            RutTextWatcher().attachEditText(etRut)
         }
     }
 

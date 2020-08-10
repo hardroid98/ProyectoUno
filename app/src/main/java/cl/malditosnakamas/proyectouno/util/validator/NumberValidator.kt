@@ -1,7 +1,7 @@
 package cl.malditosnakamas.proyectouno.util.validator
 
 object NumberValidator {
-    fun validateNumeric(password: String): Boolean {
-        return password.matches("\\d{4}".toRegex())
+    fun validate(number: String): Boolean {
+        return number.isNotEmpty() && number.matches("^(\\(?\\+?[0-9]*\\)?)?[0-9_\\-()]*\$".toRegex())
     }
 }
