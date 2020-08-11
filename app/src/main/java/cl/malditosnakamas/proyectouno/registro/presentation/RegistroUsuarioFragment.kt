@@ -55,7 +55,7 @@ class RegistroUsuarioFragment : Fragment(R.layout.fragment_registro_usuario) {
             .observe(
                 viewLifecycleOwner,
                 Observer {
-                    state -> handleResult(state)
+                    state -> handleState(state)
                 }
             )
     }
@@ -139,13 +139,30 @@ class RegistroUsuarioFragment : Fragment(R.layout.fragment_registro_usuario) {
         return textInputEditText.text.toString()
     }
 
-    private fun handleResult(state: RegistroState) {
-        if(state.result != null ){
+    private fun handleState(state: RegistroState) {
+        /*if(state.result != null ){
             Toast.makeText(requireContext(), "Registro $state.result", Toast.LENGTH_SHORT).show()
         }
 
         if(state.error != null){
             Toast.makeText(requireContext(), "Error ${state.error}", Toast.LENGTH_SHORT).show()
+        }*/
+        when(state){
+            is RegistroState.Loading -> showLoading()
+            is RegistroState.Complete -> handleRegister(state.result)
+            is RegistroState.Error -> handleError(state.error)
         }
+    }
+
+    private fun handleError(error: Throwable?) {
+        Toast.makeText(requireContext(), "Error ${error?.message}", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun handleRegister(result: Boolean?) {
+        Toast.makeText(requireContext(), "Registro $result", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showLoading() {
+
     }
 }
