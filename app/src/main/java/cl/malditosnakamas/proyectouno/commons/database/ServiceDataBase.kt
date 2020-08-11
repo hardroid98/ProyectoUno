@@ -1,4 +1,4 @@
-package cl.malditosnakamas.proyectouno.database
+package cl.malditosnakamas.proyectouno.commons.database
 
 import android.content.Context
 import androidx.room.Room
@@ -9,7 +9,8 @@ class ServiceDataBase(
 ) {
     private val db = Room.databaseBuilder(
         applicationContext,
-        ProyectoUnoDataBase::class.java, DATA_BASE_NAME
+        ProyectoUnoDataBase::class.java,
+        DATA_BASE_NAME
     ).build()
 
     fun getDB() = db

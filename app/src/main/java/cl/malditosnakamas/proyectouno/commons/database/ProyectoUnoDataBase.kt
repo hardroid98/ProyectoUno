@@ -1,4 +1,4 @@
-package cl.malditosnakamas.proyectouno.database
+package cl.malditosnakamas.proyectouno.commons.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
