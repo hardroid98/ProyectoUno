@@ -18,7 +18,7 @@
         tools:layout_editor_absoluteY="60dp"
         tools:ignore="MissingConstraints" />
 
-    <EditText
+    <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/etCorreo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
         app:layout_constraintStart_toStartOf="@+id/tvTituloLogin"
         app:layout_constraintTop_toBottomOf="@+id/tvTituloLogin" />
 
-    <EditText
+    <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/etPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
