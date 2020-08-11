@@ -1,7 +1,10 @@
 package cl.malditosnakamas.proyectouno.listado.presentation
 
+import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import cl.malditosnakamas.proyectouno.R
 import cl.malditosnakamas.proyectouno.listado.domain.model.Persona
 
 class UsuariosAdapter(private val personas: List<Persona>,
@@ -10,7 +13,10 @@ class UsuariosAdapter(private val personas: List<Persona>,
 
     override fun onCreateViewHolder(parent: ViewGroup,
                                     viewType: Int): UsuariosViewHolder {
-        TODO("Not yet implemented")
+        val inflater = LayoutInflater.from(parent.context)
+        val view: View = inflater.inflate(R.layout.item_usuarios,
+            parent, false)
+        return UsuariosViewHolder(view, listener)
     }
 
     override fun getItemCount(): Int {
@@ -19,6 +25,6 @@ class UsuariosAdapter(private val personas: List<Persona>,
 
     override fun onBindViewHolder(holder: UsuariosViewHolder,
                                   position: Int) {
-        TODO("Not yet implemented")
+        holder.bind(personas[position])
     }
 }
