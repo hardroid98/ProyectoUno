@@ -5,9 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import cl.malditosnakamas.proyectouno.R
-import cl.malditosnakamas.proyectouno.listado.domain.model.Persona
+import cl.malditosnakamas.proyectouno.listado.domain.model.Usuario
 
-class UsuariosAdapter(private val personas: List<Persona>,
+class UsuariosAdapter(private val usuarios: List<Usuario>,
                       private val listener: ItemClickListener
 ): RecyclerView.Adapter<UsuariosViewHolder>() {
 
@@ -20,11 +20,11 @@ class UsuariosAdapter(private val personas: List<Persona>,
     }
 
     override fun getItemCount(): Int {
-        return personas.size
+        return usuarios.size
     }
 
     override fun onBindViewHolder(holder: UsuariosViewHolder,
                                   position: Int) {
-        holder.bind(personas[position])
+        holder.bind(usuarios[position])
     }
 }

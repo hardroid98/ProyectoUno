@@ -1,8 +1,7 @@
 package cl.malditosnakamas.proyectouno.listado.domain.model
 
-data class Persona (
+data class Usuario (
     val nombre: String,
-    val clave: String,
     val rut: String,
     val email: String
     )

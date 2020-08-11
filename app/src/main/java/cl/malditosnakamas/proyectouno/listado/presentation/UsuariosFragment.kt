@@ -6,20 +6,19 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import cl.malditosnakamas.proyectouno.R
 import cl.malditosnakamas.proyectouno.databinding.FragmentUsuariosBinding
-import cl.malditosnakamas.proyectouno.listado.data.local.LocalPersonaRepository
-import cl.malditosnakamas.proyectouno.listado.data.local.PersonaMapper
-import cl.malditosnakamas.proyectouno.listado.domain.ObtenerPersonasUseCase
-import cl.malditosnakamas.proyectouno.listado.domain.PersonasRepository
-import cl.malditosnakamas.proyectouno.listado.domain.model.Persona
+import cl.malditosnakamas.proyectouno.listado.data.local.UsuariosMapper
+import cl.malditosnakamas.proyectouno.listado.domain.ObtenerUsuariosUseCase
+import cl.malditosnakamas.proyectouno.listado.domain.UsuariosRepository
+import cl.malditosnakamas.proyectouno.listado.domain.model.Usuario
 
 class UsuariosFragment: Fragment(R.layout.fragment_usuarios),
     ItemClickListener {
 
     private lateinit var binding: FragmentUsuariosBinding
     private lateinit var usuariosAdapter: UsuariosAdapter
-    private lateinit var useCase: ObtenerPersonasUseCase
-    private lateinit var repository: PersonasRepository
-    private val mapper = PersonaMapper()
+    private lateinit var useCase: ObtenerUsuariosUseCase
+    private lateinit var repository: UsuariosRepository
+    private val mapper = UsuariosMapper()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -30,7 +29,7 @@ class UsuariosFragment: Fragment(R.layout.fragment_usuarios),
     }
 
     private fun setupUseCase() {
-        //TODO: AIURAAAAA!!!
+        // TODO: AIURAAAAA!!!
     }
 
     private fun setupRecyclerView() {
@@ -44,8 +43,8 @@ class UsuariosFragment: Fragment(R.layout.fragment_usuarios),
         }
     }
 
-    override fun onItemClick(persona: Persona) {
-        TODO("Not yet implemented")
+    override fun onItemClick(usuario: Usuario) {
+        // TODO: AIURAAAAA!!!
     }
 
 }

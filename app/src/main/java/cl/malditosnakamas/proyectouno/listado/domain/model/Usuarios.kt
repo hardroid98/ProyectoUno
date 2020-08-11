@@ -1,5 +1,5 @@
 package cl.malditosnakamas.proyectouno.listado.domain.model
 
-data class Personas (
-    val listaPersonas: List<Persona>
+data class Usuarios (
+    val listaUsuarios: List<Usuario>
 )

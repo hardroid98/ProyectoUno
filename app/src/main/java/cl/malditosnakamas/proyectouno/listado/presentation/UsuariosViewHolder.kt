@@ -3,21 +3,21 @@ package cl.malditosnakamas.proyectouno.listado.presentation
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import cl.malditosnakamas.proyectouno.databinding.ItemUsuariosBinding
-import cl.malditosnakamas.proyectouno.listado.domain.model.Persona
+import cl.malditosnakamas.proyectouno.listado.domain.model.Usuario
 
 class UsuariosViewHolder(itemView: View, private val listener: ItemClickListener): RecyclerView.ViewHolder(itemView) {
 
     private lateinit var binding : ItemUsuariosBinding
 
-    fun bind(persona: Persona) {
+    fun bind(usuario: Usuario) {
         binding.apply {
-            tvNombre.text = persona.nombre
-            tvRut.text = persona.rut
-            tvMail.text = persona.email
+            tvNombre.text = usuario.nombre
+            tvRut.text = usuario.rut
+            tvMail.text = usuario.email
         }
     }
 
-    fun goToDetalle(persona: Persona) {
-        listener.onItemClick(persona)
+    fun goToDetalle(usuario: Usuario) {
+        listener.onItemClick(usuario)
     }
 }

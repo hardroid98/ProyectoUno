@@ -5,8 +5,8 @@ import androidx.room.Query
 import io.reactivex.Single
 
 @Dao
-interface PersonaDao {
+interface UsuariosDao {
 
-    @Query("SELECT * FROM contactos")
-    fun getAll(): Single<List<PersonaEntity>>
+    @Query("SELECT * FROM usuarios")
+    fun obtenerDatos(): Single<List<UsuariosEntity>>
 }
