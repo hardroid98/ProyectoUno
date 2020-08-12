@@ -8,5 +8,5 @@ import io.reactivex.Single
 interface UsuariosDao {
 
     @Query("SELECT * FROM usuarios")
-    fun obtenerDatos(): Single<List<UsuariosEntity>>
+    fun obtenerDatos(): Single<List<UsuarioEntity>>
 }

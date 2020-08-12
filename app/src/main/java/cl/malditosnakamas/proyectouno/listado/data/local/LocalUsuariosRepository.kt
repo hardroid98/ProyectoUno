@@ -16,7 +16,11 @@ class LocalUsuariosRepository(
     private val dataBase = ServiceDataBase(applicationContext)
 
     override fun obtenerDatos(): Single<Usuarios> {
-        return //TODO: AIURAAAA!!!
+        return dataBase
+            .getDB()
+            .usuariosDao()
+            .obtenerDatos()
+            .map { list -> usuariosMapper.mapRoomToDomain(list) }
     }
 
 }

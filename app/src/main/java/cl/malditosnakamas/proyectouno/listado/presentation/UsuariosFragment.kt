@@ -1,6 +1,5 @@
 package cl.malditosnakamas.proyectouno.listado.presentation
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -15,6 +14,7 @@ import cl.malditosnakamas.proyectouno.listado.domain.UsuariosRepository
 import cl.malditosnakamas.proyectouno.listado.domain.model.Usuario
 import cl.malditosnakamas.proyectouno.listado.domain.model.Usuarios
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 class UsuariosFragment: Fragment(R.layout.fragment_usuarios),
@@ -24,19 +24,20 @@ class UsuariosFragment: Fragment(R.layout.fragment_usuarios),
     private lateinit var usuariosAdapter: UsuariosAdapter
     private lateinit var useCase: ObtenerUsuariosUseCase
     private lateinit var repository: UsuariosRepository
+    private val compositeDisposable = CompositeDisposable()
     private val mapper = UsuariosMapper()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupDependencies()
+        callUseCase()
         bindView(view)
         setupRecyclerView()
-        setupUseCase()
-        binding = FragmentUsuariosBinding.bind(view)
     }
 
     private fun setupDependencies() {
-        TODO("Not yet implemented")
+        repository = LocalUsuariosRepository(requireContext(), mapper)
+        useCase = ObtenerUsuariosUseCase(repository)
     }
 
     private fun bindView(view: View) {
@@ -54,17 +55,14 @@ class UsuariosFragment: Fragment(R.layout.fragment_usuarios),
         }
     }
 
-    @SuppressLint("CheckResult")
-    private fun setupUseCase() {
-        repository = LocalUsuariosRepository(requireContext(), mapper)
-        useCase = ObtenerUsuariosUseCase(repository)
-        useCase.excecute()
+    private fun callUseCase() {
+        compositeDisposable.add(useCase.excecute()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                {result -> handleReult(result)},
-                {error -> handleError(error)}
-            )
+                { result -> handleReult(result) },
+                { error -> handleError(error) }
+            ))
     }
 
     private fun handleError(error: Throwable) {
@@ -75,13 +73,18 @@ class UsuariosFragment: Fragment(R.layout.fragment_usuarios),
     }
 
     private fun handleReult(result: Usuarios) {
-        val adapter = UsuariosAdapter(result.listaUsuarios)
+        val adapter = UsuariosAdapter(result.listaUsuarios, this)
         binding.rvUsuarios.adapter = usuariosAdapter
         }
 
     override fun onItemClick(usuario: Usuario) {
         binding.rvUsuarios.setOnClickListener {
-            // Navigation.findNavController(getView()).navigate(R.id.action_usuariosFragment_to_detallesFragment);        }
+            // Navigation.findNavController(getView()).navigate(R.id.action_usuariosFragment_to_detallesFragment);
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.dispose()
     }
 }

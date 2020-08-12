@@ -7,7 +7,7 @@ import cl.malditosnakamas.proyectouno.listado.domain.model.Usuario
 
 class UsuariosViewHolder(itemView: View, private val listener: ItemClickListener): RecyclerView.ViewHolder(itemView) {
 
-    private lateinit var binding : ItemUsuariosBinding
+    private val binding = ItemUsuariosBinding.bind(itemView)
 
     fun bind(usuario: Usuario) {
         binding.apply {
