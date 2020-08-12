@@ -33,7 +33,6 @@ class UsuariosFragment: Fragment(R.layout.fragment_usuarios),
         setupRecyclerView()
         setupUseCase()
         binding = FragmentUsuariosBinding.bind(view)
-
     }
 
     private fun setupDependencies() {
