@@ -65,6 +65,11 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.dispose()
+    }
+
     private fun handleError(error: Throwable) {
         Toast.makeText(requireContext(), "Ups, Error {${error.message}}", Toast.LENGTH_SHORT).show()
     }
