@@ -1,6 +1,6 @@
 package cl.malditosnakamas.proyectouno.registro.data.local
 
-import cl.malditosnakamas.persistenciadedatos.personajes.data.local.database.RegistroEntity
+import cl.malditosnakamas.proyectouno.registro.data.local.database.RegistroEntity
 import cl.malditosnakamas.proyectouno.registro.domain.Registro
 
 class RegistroMapper {

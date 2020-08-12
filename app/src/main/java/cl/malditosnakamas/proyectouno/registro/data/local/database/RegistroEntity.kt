@@ -1,4 +1,4 @@
-package cl.malditosnakamas.persistenciadedatos.personajes.data.local.database
+package cl.malditosnakamas.proyectouno.registro.data.local.database
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
