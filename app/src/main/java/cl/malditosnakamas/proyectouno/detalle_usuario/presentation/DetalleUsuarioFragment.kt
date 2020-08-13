@@ -18,9 +18,7 @@ class DetalleUsuarioFragment : Fragment(R.layout.fragment_detalle_usuario){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupDependecias()
-        binding = FragmentDetalleUsuarioBinding()
-
-
+        binding = FragmentDetalleUsuarioBinding.bind(view)
     }
 
     private fun setupDependecias() {
