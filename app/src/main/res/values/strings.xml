@@ -6,6 +6,7 @@
     <string name="ingresa_rut">Ingrese Rut</string>
     <string name="ingresa_clave">Ingresa Clave</string>
     <string name="ingresa_email">Ingresa Email</string>
+<<<<<<< HEAD
     <string name="error_rut">Rut invalido</string>
     <string name="error_nombre">Ingrese un nombre correcto</string>
     <string name="error_clave">Error en contraseña</string>
@@ -13,4 +14,10 @@
     <string name="ingresa_login">Ingresa Login</string>
     <string name="ingresa_contrase_a">Ingresa Contraseña</string>
     <string name="ingresa">Ingresa</string>
+=======
+    <string name="detalle_usuario">Detalle Usuario</string>
+    <string name="edad">Edad</string>
+    <string name="direccion">Direccion</string>
+    <string name="hobby">Hobby</string>
+>>>>>>>  se agrega layout fragment
 </resources>
