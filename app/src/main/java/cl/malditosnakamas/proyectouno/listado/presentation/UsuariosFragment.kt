@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import cl.malditosnakamas.proyectouno.R
 import cl.malditosnakamas.proyectouno.databinding.FragmentUsuariosBinding
@@ -13,35 +15,61 @@ import cl.malditosnakamas.proyectouno.listado.domain.ObtenerUsuariosUseCase
 import cl.malditosnakamas.proyectouno.listado.domain.UsuariosRepository
 import cl.malditosnakamas.proyectouno.listado.domain.model.Usuario
 import cl.malditosnakamas.proyectouno.listado.domain.model.Usuarios
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 
 class UsuariosFragment: Fragment(R.layout.fragment_usuarios),
     ItemClickListener {
 
     private lateinit var binding: FragmentUsuariosBinding
     private lateinit var usuariosAdapter: UsuariosAdapter
-    private lateinit var useCase: ObtenerUsuariosUseCase
+    private lateinit var listadoUseCase: ObtenerUsuariosUseCase
     private lateinit var repository: UsuariosRepository
-    private val compositeDisposable = CompositeDisposable()
+    private lateinit var listadoViewModel: ListadoViewModel
+    private lateinit var listadoViewModelFactory: ListadoViewModelFactory
     private val mapper = UsuariosMapper()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupDependencies()
-        callUseCase()
+        callViewModel()
         bindView(view)
+        setupLiveData()
         setupRecyclerView()
     }
 
     private fun setupDependencies() {
         repository = LocalUsuariosRepository(requireContext(), mapper)
-        useCase = ObtenerUsuariosUseCase(repository)
+        listadoUseCase = ObtenerUsuariosUseCase(repository)
+        listadoViewModelFactory = ListadoViewModelFactory(listadoUseCase)
+        listadoViewModel = ViewModelProvider(this, listadoViewModelFactory)
+            .get(ListadoViewModel::class.java)
     }
 
     private fun bindView(view: View) {
         binding = FragmentUsuariosBinding.bind(view)
+    }
+
+    private fun setupLiveData() {
+        listadoViewModel
+            .getLiveData()
+            .observe(
+                viewLifecycleOwner,
+                Observer {
+                    state ->
+                    handleState(state)
+                }
+            )
+    }
+
+    private fun handleState(state: ListadoState?) {
+        when (state) {
+            is ListadoState.LoadingState -> showLoading()
+            is ListadoState.Complete -> state.result?.let { handleReult(it) }
+            is ListadoState.Error -> state.error?.let { handleError(it) }
+        }
+    }
+
+    private fun showLoading() {
+        // pendiente carga
     }
 
     private fun setupRecyclerView() {
@@ -55,14 +83,8 @@ class UsuariosFragment: Fragment(R.layout.fragment_usuarios),
         }
     }
 
-    private fun callUseCase() {
-        compositeDisposable.add(useCase.excecute()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { result -> handleReult(result) },
-                { error -> handleError(error) }
-            ))
+    private fun callViewModel() {
+        listadoViewModel.listado()
     }
 
     private fun handleError(error: Throwable) {
@@ -81,10 +103,5 @@ class UsuariosFragment: Fragment(R.layout.fragment_usuarios),
         binding.rvUsuarios.setOnClickListener {
             // Navigation.findNavController(getView()).navigate(R.id.action_usuariosFragment_to_detallesFragment);
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        compositeDisposable.dispose()
     }
 }
