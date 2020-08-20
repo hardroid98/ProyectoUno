@@ -1,7 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    tools:ignore="UnusedNavigation, UnusedResources">
+    tools:ignore="UnusedNavigation, UnusedResources"
+    app:startDestination="@id/loginFragment">
 
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="cl.malditosnakamas.proyectouno.login.presentation.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_registroUsuarioFragment"
+            app:destination="@id/registroUsuarioFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_usuariosFragment"
+            app:destination="@id/usuariosFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registroUsuarioFragment"
+        android:name="cl.malditosnakamas.proyectouno.registro.presentation.RegistroUsuarioFragment"
+        android:label="fragment_registro_usuario"
+        tools:layout="@layout/fragment_registro_usuario" >
+        <action
+            android:id="@+id/action_registroUsuarioFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/usuariosFragment"
+        android:name="cl.malditosnakamas.proyectouno.listado.presentation.UsuariosFragment"
+        android:label="UsuariosFragment"
+        tools:layout="@layout/fragment_usuarios">
+        <action
+            android:id="@+id/action_usuariosFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
 </navigation>

@@ -95,9 +95,9 @@ class UsuariosFragment: Fragment(R.layout.fragment_usuarios),
     }
 
     private fun handleReult(result: Usuarios) {
-        val adapter = UsuariosAdapter(result.listaUsuarios, this)
+        usuariosAdapter = UsuariosAdapter(result.listaUsuarios, this)
         binding.rvUsuarios.adapter = usuariosAdapter
-        }
+    }
 
     override fun onItemClick(usuario: Usuario) {
         binding.rvUsuarios.setOnClickListener {

@@ -7,6 +7,7 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import cl.malditosnakamas.proyectouno.R
 import cl.malditosnakamas.proyectouno.databinding.FragmentLoginBinding
 import cl.malditosnakamas.proyectouno.login.data.local.LocalLoginRepository
@@ -56,10 +57,15 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             )
     }
 
-
     private fun setupListeners() {
-        binding.btnIngresar.setOnClickListener {
-            doClickLogin()
+        binding.apply {
+            btnIngresar.setOnClickListener {
+                doClickLogin()
+            }
+
+            btnIrARegistro.setOnClickListener {
+                irARegistro()
+            }
         }
     }
 
@@ -71,10 +77,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 binding.etPassword.text.toString()
             )
         }
-    }
-
-    private fun handleError(error: Throwable) {
-        Toast.makeText(requireContext(), "Ups, Error {${error.message}}", Toast.LENGTH_SHORT).show()
     }
 
     private fun handleState(state: LoginState) {
@@ -91,21 +93,24 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     private fun handleResult(result: Boolean) {
         if (result) {
-            Toast.makeText(requireContext(), "Login OK", Toast.LENGTH_SHORT).show()
+            irAListadoDeUsuarios()
         } else {
             Toast.makeText(requireContext(), "Login Error", Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun obtenerLoginValues(): Login {
-        return Login(
-            getTextValue(binding.etCorreo),
-            getTextValue(binding.etPassword)
-        )
+    private fun handleError(error: Throwable) {
+        Toast.makeText(requireContext(), "Ups, Error {${error.message}}", Toast.LENGTH_SHORT).show()
     }
 
-    fun getTextValue(textInputEditText: AppCompatEditText): String {
-        return textInputEditText.text.toString()
+    private fun irARegistro() {
+        Navigation.findNavController(requireView())
+            .navigate(R.id.action_loginFragment_to_registroUsuarioFragment)
+    }
+
+    private fun irAListadoDeUsuarios() {
+        Navigation.findNavController(requireView())
+            .navigate(R.id.action_loginFragment_to_usuariosFragment)
     }
 
     private fun clearErrorMessages() {

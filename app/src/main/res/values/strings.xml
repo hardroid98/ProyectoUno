@@ -18,5 +18,6 @@
     <string name="edad">Edad</string>
     <string name="direccion">Direccion</string>
     <string name="hobby">Hobby</string>
+    <string name="crear_cuenta">Crear Cuenta</string>
 
 </resources>
